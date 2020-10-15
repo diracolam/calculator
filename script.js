@@ -28,6 +28,11 @@ const operate = function(operator, a, b) {
     }
 }
 
+// Global Variables------------------------------------------------------
+//-----------------------------------------------------------------------
+
+let currentExpression = "";
+
 // Query Selectors-------------------------------------------------------
 //-----------------------------------------------------------------------
 
@@ -39,18 +44,29 @@ const operatorButtons = document.querySelectorAll(".operator-btn");
 // Event Listeners/Other Functions---------------------------------------
 //-----------------------------------------------------------------------
 
-const displayNumber = function(button) {
-    if (display.textContent === "0") {
-        display.textContent = button.value;
-    } else {
-        display.textContent += button.value;
-    }  
+const update = function(button) {
+    updateExpression(button.value);
+};
+
+const updateExpression = function(buttonValue) {
+    if (currentExpression === "") {
+        if (buttonValue !== "+" && buttonValue !== "-" && buttonValue !== "*" && buttonValue !== "/") {
+            currentExpression += buttonValue;
+            memDisplay.textContent = currentExpression;
+        }
+    } else if (currentExpression) {
+        let lastInput = currentExpression.charAt(currentExpression.length - 1);
+        if (lastInput !== "+" && lastInput !== "-" && lastInput !== "*" && lastInput !== "/") {
+            currentExpression += buttonValue;
+            memDisplay.textContent = currentExpression;
+        }
+    }
 };
 
 numberButtons.forEach(function(currentButton) {
-    currentButton.addEventListener("click", function() {displayNumber(currentButton)})
+    currentButton.addEventListener("click", function() {update(currentButton)})
 });
 
 operatorButtons.forEach(function(currentButton) {
-    currentButton.addEventListener("click", function() {getOperator(currentButton)});
+    currentButton.addEventListener("click", function() {update(currentButton)});
 });
