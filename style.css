@@ -19,6 +19,7 @@ body {
     margin-right: 10px;
 }
 
+
 #display-container {
     display: flex;
     flex-direction: column;
@@ -33,6 +34,6 @@ body {
     margin-bottom: 10px;
 }
 
-.btn {
+.btn, .number-btn, .operator-btn {
     margin: 2px;
 }
