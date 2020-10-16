@@ -50,8 +50,12 @@ const update = function(button) {
     const buttonValue = button.value; 
     const lastInput = currentExpression.charAt(currentExpression.length - 1);
 
+    if (lastInput === "=") {
+        currentExpression = "";
+    }
+    
     if (operatorArray.includes(buttonValue)) {
-        if (!operatorArray.includes(lastInput) && lastInput !== "=") {
+        if (!operatorArray.includes(lastInput) && lastInput !== "=" && currentExpression !== "") {
             currentExpression += buttonValue;
             memDisplay.textContent = currentExpression;
 
@@ -60,10 +64,13 @@ const update = function(button) {
         if (operatorArray.includes(lastInput)) {
             currentExpression = currentExpression.slice(0, -1) + "=";
             memDisplay.textContent = currentExpression;
-        } else if (lastInput !== "=") {
+        } else if (lastInput !== "=" && currentExpression !== "") {
             currentExpression += buttonValue;
             memDisplay.textContent = currentExpression;
         }
+
+
+
 
     } else {
         currentExpression += buttonValue;
