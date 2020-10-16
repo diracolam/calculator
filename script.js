@@ -32,6 +32,7 @@ const operate = function(operator, a, b) {
 //-----------------------------------------------------------------------
 
 let currentExpression = "";
+const operatorArray = ["+", "-", "*", "/"];
 
 // Query Selectors-------------------------------------------------------
 //-----------------------------------------------------------------------
@@ -40,26 +41,33 @@ const memDisplay = document.querySelector("#memory");
 const display = document.querySelector("#display");
 const numberButtons = document.querySelectorAll(".number-btn");
 const operatorButtons = document.querySelectorAll(".operator-btn");
+const equalsButton = document.querySelector("#equals");
 
 // Event Listeners/Other Functions---------------------------------------
 //-----------------------------------------------------------------------
 
 const update = function(button) {
-    updateExpression(button.value);
-};
+    const buttonValue = button.value; 
+    const lastInput = currentExpression.charAt(currentExpression.length - 1);
 
-const updateExpression = function(buttonValue) {
-    if (currentExpression === "") {
-        if (buttonValue !== "+" && buttonValue !== "-" && buttonValue !== "*" && buttonValue !== "/") {
+    if (operatorArray.includes(buttonValue)) {
+        if (!operatorArray.includes(lastInput) && lastInput !== "=") {
+            currentExpression += buttonValue;
+            memDisplay.textContent = currentExpression;
+
+        }
+    } else if (buttonValue === "=") {
+        if (operatorArray.includes(lastInput)) {
+            currentExpression = currentExpression.slice(0, -1) + "=";
+            memDisplay.textContent = currentExpression;
+        } else if (lastInput !== "=") {
             currentExpression += buttonValue;
             memDisplay.textContent = currentExpression;
         }
-    } else if (currentExpression) {
-        let lastInput = currentExpression.charAt(currentExpression.length - 1);
-        if (lastInput !== "+" && lastInput !== "-" && lastInput !== "*" && lastInput !== "/") {
-            currentExpression += buttonValue;
-            memDisplay.textContent = currentExpression;
-        }
+
+    } else {
+        currentExpression += buttonValue;
+        memDisplay.textContent = currentExpression;
     }
 };
 
@@ -70,3 +78,5 @@ numberButtons.forEach(function(currentButton) {
 operatorButtons.forEach(function(currentButton) {
     currentButton.addEventListener("click", function() {update(currentButton)});
 });
+
+equalsButton.addEventListener("click", function() {update(equalsButton)});
