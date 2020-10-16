@@ -58,7 +58,9 @@ const update = function(button) {
         if (!operatorArray.includes(lastInput) && lastInput !== "=" && currentExpression !== "") {
             currentExpression += buttonValue;
             memDisplay.textContent = currentExpression;
-
+        } else if (operatorArray.includes(lastInput)) {
+            currentExpression = currentExpression.slice(0, -1) + buttonValue;
+            memDisplay.textContent = currentExpression;
         }
     } else if (buttonValue === "=") {
         if (operatorArray.includes(lastInput)) {
@@ -68,9 +70,6 @@ const update = function(button) {
             currentExpression += buttonValue;
             memDisplay.textContent = currentExpression;
         }
-
-
-
 
     } else {
         currentExpression += buttonValue;
