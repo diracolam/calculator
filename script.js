@@ -21,19 +21,26 @@ const divide = function(a, b) {
 }
 
 const operate = function(operator, a, b) {
+    let solution;
+    
     if (operator === "" || b === "") {
-        return a;
+        solution = a;
     } else {
         if (operator === "+") {
-            return add(a, b);
+            solution = add(a, b);
         } else if (operator === "-") {
-            return subtract(a, b);
+            solution = subtract(a, b);
         } else if (operator === "*") {
-            return multiply(a, b);
+            solution = multiply(a, b);
         } else if (operator === "/") {
-            return divide(a, b);
+            solution = divide(a, b);
         }
     }
+    if (solution > 10**9) {
+        solution = solution.toExponential(6);
+    }
+
+    return solution;
 }
 
 // Global Variables------------------------------------------------------
@@ -63,15 +70,138 @@ const deleteButton = document.querySelector("#delete");
 const clearCurrentNumberButton = document.querySelector("#clear");
 const clearEntryButton = document.querySelector("#clear-entry");
 
-// Event Listeners/Other Functions---------------------------------------
+// Event Listeners-------------------------------------------------------
+//-----------------------------------------------------------------------
+
+//Click
+numberButtons.forEach(function(currentButton) {
+    currentButton.addEventListener("click", function() {update(currentButton)})
+});
+operatorButtons.forEach(function(currentButton) {
+    currentButton.addEventListener("click", function() {update(currentButton)});
+});
+equalsButton.addEventListener("click", function() {update(equalsButton)});
+decimalButton.addEventListener("click", function() {update(decimalButton)});
+plusMinusButton.addEventListener("click", function() {update(plusMinusButton)});
+deleteButton.addEventListener("click", function() {update(deleteButton)});
+clearCurrentNumberButton.addEventListener("click", function() {update(clearCurrentNumberButton)});
+clearEntryButton.addEventListener("click", function() {update(clearEntryButton)});
+
+//Keypress
+document.onkeypress = function(e) {
+    let key = e.key;
+    if (key === "0") {
+        e.value = key;
+        update(e);
+    } else if (key === "1") {
+        e.value = key;
+        update(e);
+    } else if (key === "2") {
+        e.value = key;
+        update(e);
+    } else if (key === "3") {
+        e.value = key;
+        update(e);
+    } else if (key === "4") {
+        e.value = key;
+        update(e);
+    } else if (key === "5") {
+        e.value = key;
+        update(e);
+    } else if (key === "6") {
+        e.value = key;
+        update(e);
+    } else if (key === "7") {
+        e.value = key;
+        update(e);
+    } else if (key === "8") {
+        e.value = key;
+        update(e);
+    } else if (key === "9") {
+        e.value = key;
+        update(e);
+    } else if (key === "+") {
+        e.value = key;
+        update(e);
+    } else if (key === "-") {
+        e.value = key;
+        update(e);
+    } else if (key === "*") {
+        e.value = key;
+        update(e);
+    } else if (key === "/") {
+        e.value = key;
+        update(e);
+    } else if (key === "Enter") {
+        e.value = "=";
+        update(e);
+    } else if (key === ".") {
+        e.value = key;
+        update(e);
+    } else if (key === "Delete") {
+        e.value = "delete";
+        update(e);
+    }
+
+}
+
+// Main Function---------------------------------------------------------
+//-----------------------------------------------------------------------
+
+const update = function(button) {
+    if (numberArray.includes(button.value)) {
+        updateNumbers(button.value);
+    }
+    if (operatorArray.includes(button.value) && currentOperator === "" && firstNumber !== "") {
+        currentOperator = button.value;
+    } else if (operatorArray.includes(button.value) && firstNumber !== "") {
+        firstNumber = operate(currentOperator, firstNumber, secondNumber);
+        if (firstNumber !== "DIVby0ERROR") {
+            currentOperator = button.value;
+            secondNumber = "";
+        }
+    }
+    if (button.value === ".") {
+        addDecimal();
+    }
+    if (button.value === "+/-") {
+        applyPlusMinus();
+    }
+    if (button.value === "delete") {
+        deleteLastInput();
+    }
+    if (button.value === "C") {
+        clearLastNumber();
+    }
+    if (button.value === "CE") {
+        clearExpression();
+    }
+
+    updateExpression();
+    updateDisplay();
+
+    if (button.value === "=" && (currentExpression !== "" && currentExpression !== "0")) {
+        equalSign = "=";
+        output = operate(currentOperator, firstNumber, secondNumber);
+        lastOutput = output;
+        
+        updateExpression();
+        updateDisplay();
+        clearExpression(); 
+    } else if (button.value === "=") {
+        display.textContent = "0";
+    } 
+};
+
+//Helper Functions---------------------------------------
 //-----------------------------------------------------------------------
 
 const updateNumbers = function(number) {
     if (firstNumber === "") {
         firstNumber = number;
-    } else if (currentOperator === "") {
+    } else if (currentOperator === "" && firstNumber.length < 9) {
         firstNumber += number;
-    } else {
+    } else if (currentOperator !== "" && secondNumber.length < 9) {
         secondNumber += number;
     }
 };
@@ -151,69 +281,3 @@ const clearLastNumber = function() {
         firstNumber = "";
     }
 }
-
-/////////////////
-const update = function(button) {
-    if (numberArray.includes(button.value)) {
-        updateNumbers(button.value);
-    }
-    if (operatorArray.includes(button.value) && currentOperator === "" && firstNumber !== "") {
-        currentOperator = button.value;
-    } else if (operatorArray.includes(button.value) && firstNumber !== "") {
-        firstNumber = operate(currentOperator, firstNumber, secondNumber);
-        if (firstNumber !== "DIVby0ERROR") {
-            currentOperator = button.value;
-            secondNumber = "";
-        }
-    }
-    if (button.value === ".") {
-        addDecimal();
-    }
-    if (button.value === "+/-") {
-        applyPlusMinus();
-    }
-    if (button.value === "delete") {
-        deleteLastInput();
-    }
-    if (button.value === "C") {
-        clearLastNumber();
-    }
-    if (button.value === "CE") {
-        clearExpression();
-    }
-
-    updateExpression();
-    updateDisplay();
-
-    if (button.value === "=" && (currentExpression !== "" && currentExpression !== "0")) {
-        equalSign = "=";
-        output = operate(currentOperator, firstNumber, secondNumber);
-        lastOutput = output;
-        
-        updateExpression();
-        updateDisplay();
-        clearExpression(); 
-    } else if (button.value === "=") {
-        display.textContent = "0";
-    } 
-};
-//////////////////
-numberButtons.forEach(function(currentButton) {
-    currentButton.addEventListener("click", function() {update(currentButton)})
-});
-
-operatorButtons.forEach(function(currentButton) {
-    currentButton.addEventListener("click", function() {update(currentButton)});
-});
-
-equalsButton.addEventListener("click", function() {update(equalsButton)});
-
-decimalButton.addEventListener("click", function() {update(decimalButton)});
-
-plusMinusButton.addEventListener("click", function() {update(plusMinusButton)});
-
-deleteButton.addEventListener("click", function() {update(deleteButton)});
-
-clearCurrentNumberButton.addEventListener("click", function() {update(clearCurrentNumberButton)});
-
-clearEntryButton.addEventListener("click", function() {update(clearEntryButton)});
