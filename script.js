@@ -1,7 +1,7 @@
 // Math Functions--------------------------------------------------------
 //-----------------------------------------------------------------------
 const add = function(a, b) {
-    return a + b;
+    return parseInt(a) + parseInt(b);
 }
 
 const subtract = function(a, b) {
@@ -32,9 +32,12 @@ const operate = function(operator, a, b) {
 //-----------------------------------------------------------------------
 
 let currentExpression = "";
-let firstNumber = "0";
-let secondNumber = "0";
+let firstNumber = "";
+let secondNumber = "";
 let currentOperator = "";
+let equalSign = "";
+let output = "";
+const numberArray = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const operatorArray = ["+", "-", "*", "/"];
 
 // Query Selectors-------------------------------------------------------
@@ -49,7 +52,46 @@ const equalsButton = document.querySelector("#equals");
 // Event Listeners/Other Functions---------------------------------------
 //-----------------------------------------------------------------------
 
+const updateNumbers = function(number) {
+    if (firstNumber === "") {
+        firstNumber = number;
+    } else if (currentOperator === "") {
+        firstNumber += number;
+    } else {
+        secondNumber += number;
+    }
+};
 
+const updateDisplay = function() {
+    if (output !== "") {
+        display.textContent = output;
+    } else if (secondNumber !== "") {
+        display.textContent = secondNumber;
+    } else {
+        display.textContent= firstNumber;
+    }
+};
+
+const updateExpression = function() {
+    currentExpression = firstNumber + currentOperator + secondNumber + equalSign;
+    memDisplay.textContent = currentExpression;
+};
+
+const update = function(button) {
+    if (numberArray.includes(button.value)) {
+        updateNumbers(button.value);
+    }
+    if (operatorArray.includes(button.value) && currentOperator === "") {
+        currentOperator = button.value;
+    }
+    if (button.value === "=") {
+        equalSign = "=";
+        output = operate(currentOperator, firstNumber, secondNumber);
+    }
+
+    updateDisplay();
+    updateExpression();  
+};
 
 numberButtons.forEach(function(currentButton) {
     currentButton.addEventListener("click", function() {update(currentButton)})
