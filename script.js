@@ -32,6 +32,9 @@ const operate = function(operator, a, b) {
 //-----------------------------------------------------------------------
 
 let currentExpression = "";
+let firstNumber = "0";
+let secondNumber = "0";
+let currentOperator = "";
 const operatorArray = ["+", "-", "*", "/"];
 
 // Query Selectors-------------------------------------------------------
@@ -46,36 +49,7 @@ const equalsButton = document.querySelector("#equals");
 // Event Listeners/Other Functions---------------------------------------
 //-----------------------------------------------------------------------
 
-const update = function(button) {
-    const buttonValue = button.value; 
-    const lastInput = currentExpression.charAt(currentExpression.length - 1);
 
-    if (lastInput === "=") {
-        currentExpression = "";
-    }
-    
-    if (operatorArray.includes(buttonValue)) {
-        if (!operatorArray.includes(lastInput) && lastInput !== "=" && currentExpression !== "") {
-            currentExpression += buttonValue;
-            memDisplay.textContent = currentExpression;
-        } else if (operatorArray.includes(lastInput)) {
-            currentExpression = currentExpression.slice(0, -1) + buttonValue;
-            memDisplay.textContent = currentExpression;
-        }
-    } else if (buttonValue === "=") {
-        if (operatorArray.includes(lastInput)) {
-            currentExpression = currentExpression.slice(0, -1) + "=";
-            memDisplay.textContent = currentExpression;
-        } else if (lastInput !== "=" && currentExpression !== "") {
-            currentExpression += buttonValue;
-            memDisplay.textContent = currentExpression;
-        }
-
-    } else {
-        currentExpression += buttonValue;
-        memDisplay.textContent = currentExpression;
-    }
-};
 
 numberButtons.forEach(function(currentButton) {
     currentButton.addEventListener("click", function() {update(currentButton)})
