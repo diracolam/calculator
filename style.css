@@ -3,7 +3,7 @@ body {
     flex-direction: column;
     align-items: center;
     font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
-    background-color: rgb(34, 40, 49);
+    background-color: rgb(218, 218, 218);
 }
 
 #main-container {
@@ -11,7 +11,9 @@ body {
     flex-direction: column;
     width: 500px;
     height: 600px;
-    background-color: rgb(226, 226, 226);
+    background-color: rgb(27, 38, 54);
+    border-radius: 5px;
+    box-shadow: 5px 10px 10px;
     margin: 10% 0 10% 0;
 }
 
@@ -24,24 +26,29 @@ body {
 #display-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    text-align: right;
     margin-top: 10px;
-    height: 40%;
-    border: green dotted 2px;
+    height: 30%;
 }
 
 #memory {
     width: 90%;
     height: 40%;
-    border: green dotted 2px;
-    font-size: 25px;
+    color: rgb(148, 148, 148);
+    font-size: 35px;
+    margin: 2%;
     
 }
 
 #display {
     width: 90%;
     height: 60%;
-    border: green dotted 2px;
+    color: white;
+    font-size: 75px;
+    font-weight: lighter;
+    margin: 2%;
+
 }
 
 #button-container {
@@ -49,9 +56,18 @@ body {
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     margin-bottom: 10px;
-    height: 60%;
+    height: 70%;
 }
 
 .btn, .number-btn, .operator-btn {
     margin: 3px;
+    font-size: 35px;
+    background-color: rgb(32, 45, 65);
+    color: white;
+    border: none;
 }
+
+.btn:hover, .number-btn:hover, .operator-btn:hover {
+    background-color: rgb(55, 77, 110);
+}
+
